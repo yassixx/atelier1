@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Repository\CategorieRepository;
@@ -10,49 +11,50 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 define("PLAYLISTS_PATH", "pages/playlists.html.twig");
+
 /**
  * Description of PlaylistsController
  *
  * @author emds
  */
 class PlaylistsController extends AbstractController {
-    
+
     /**
      * 
      * @var PlaylistRepository
      */
     private $playlistRepository;
-    
+
     /**
      * 
      * @var FormationRepository
      */
     private $formationRepository;
-    
+
     /**
      * 
      * @var CategorieRepository
      */
-    private $categorieRepository;    
-    
-    function __construct(PlaylistRepository $playlistRepository, 
+    private $categorieRepository;
+
+    function __construct(PlaylistRepository $playlistRepository,
             CategorieRepository $categorieRepository,
             FormationRepository $formationRespository) {
         $this->playlistRepository = $playlistRepository;
         $this->categorieRepository = $categorieRepository;
         $this->formationRepository = $formationRespository;
     }
-    
+
     /**
      * @Route("/playlists", name="playlists")
      * @return Response
      */
-    public function index(): Response{
+    public function index(): Response {
         $playlists = $this->playlistRepository->findAllOrderBy('name', 'ASC');
         $categories = $this->categorieRepository->findAll();
         return $this->render(PLAYLISTS_PATH, [
-            'playlists' => $playlists,
-            'categories' => $categories            
+                    'playlists' => $playlists,
+                    'categories' => $categories
         ]);
     }
 
@@ -62,15 +64,15 @@ class PlaylistsController extends AbstractController {
      * @param type $ordre
      * @return Response
      */
-    public function sort($champ, $ordre): Response{
+    public function sort($champ, $ordre): Response {
         $playlists = $this->playlistRepository->findAllOrderBy($champ, $ordre);
         $categories = $this->categorieRepository->findAll();
         return $this->render(PLAYLISTS_PATH, [
-            'playlists' => $playlists,
-            'categories' => $categories            
+                    'playlists' => $playlists,
+                    'categories' => $categories
         ]);
-    }         
-    
+    }
+
     /**
      * @Route("/playlists/recherche/{champ}/{table}", name="playlists.findallcontain")
      * @param type $champ
@@ -78,32 +80,36 @@ class PlaylistsController extends AbstractController {
      * @param type $table
      * @return Response
      */
-    public function findAllContain($champ, Request $request, $table=""): Response{
+    public function findAllContain($champ, Request $request, $table = ""): Response {
         $valeur = $request->get("recherche");
-        $playlists = $this->playlistRepository->findByContainValue($champ, $valeur, $table);
+        if ($table != "") {
+            $playlists = $this->playlistRepository->findByContainValueTable($champ, $valeur, $table);
+        } else {
+            $playlists = $this->playlistRepository->findByContainValue($champ, $valeur);
+        }
         $categories = $this->categorieRepository->findAll();
         return $this->render(PLAYLISTS_PATH, [
-            'playlists' => $playlists,
-            'categories' => $categories,            
-            'valeur' => $valeur,
-            'table' => $table
+                    'playlists' => $playlists,
+                    'categories' => $categories,
+                    'valeur' => $valeur,
+                    'table' => $table
         ]);
-    }  
-    
+    }
+
     /**
      * @Route("/playlists/playlist/{id}", name="playlists.showone")
      * @param type $id
      * @return Response
      */
-    public function showOne($id): Response{
+    public function showOne($id): Response {
         $playlist = $this->playlistRepository->find($id);
         $playlistCategories = $this->categorieRepository->findAllForOnePlaylist($id);
         $playlistFormations = $this->formationRepository->findAllForOnePlaylist($id);
         return $this->render(PLAYLISTS_PATH, [
-            'playlist' => $playlist,
-            'playlistcategories' => $playlistCategories,
-            'playlistformations' => $playlistFormations
-        ]);        
-    }       
-    
+                    'playlist' => $playlist,
+                    'playlistcategories' => $playlistCategories,
+                    'playlistformations' => $playlistFormations
+        ]);
+    }
+
 }

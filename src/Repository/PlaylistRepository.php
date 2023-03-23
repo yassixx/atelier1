@@ -5,13 +5,19 @@ namespace App\Repository;
 use App\Entity\Playlist;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use const C_NAME;
+use const C_NAME_CATEGORIENAME;
+use const F_CATEGORIES;
+use const P_FORMATIONS;
+use const P_ID_ID;
+use const P_NAME_NAME;
 
-define ("P_ID_ID", "p.id id");
-define ("P_NAME_NAME", "p.name name");
+define("P_ID_ID", "p.id id");
+define("P_NAME_NAME", "p.name name");
 define("C_NAME", "c.name");
-define ("P_FORMATIONS", "p.formations");
-define ("C_NAME_CATEGORIENAME", "c.name categoriename");
-define ("F_CATEGORIES", "f.categories");
+define("P_FORMATIONS", "p.formations");
+define("C_NAME_CATEGORIENAME", "c.name categoriename");
+define("F_CATEGORIES", "f.categories");
 
 /**
  * @extends ServiceEntityRepository<Playlist>
@@ -21,15 +27,13 @@ define ("F_CATEGORIES", "f.categories");
  * @method Playlist[]    findAll()
  * @method Playlist[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PlaylistRepository extends ServiceEntityRepository
-{
-    public function __construct(ManagerRegistry $registry)
-    {
+class PlaylistRepository extends ServiceEntityRepository {
+
+    public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Playlist::class);
     }
 
-    public function add(Playlist $entity, bool $flush = false): void
-    {
+    public function add(Playlist $entity, bool $flush = false): void {
         $this->getEntityManager()->persist($entity);
 
         if ($flush) {
@@ -37,34 +41,33 @@ class PlaylistRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Playlist $entity, bool $flush = false): void
-    {
+    public function remove(Playlist $entity, bool $flush = false): void {
         $this->getEntityManager()->remove($entity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
         }
     }
-    
+
     /**
      * Retourne toutes les playlists triées sur un champ
      * @param type $champ
      * @param type $ordre
      * @return Playlist[]
      */
-    public function findAllOrderBy($champ, $ordre): array{
+    public function findAllOrderBy($champ, $ordre): array {
         return $this->createQueryBuilder('p')
-                ->select(P_ID_ID)
-                ->addSelect(P_NAME_NAME)
-                ->addSelect(C_NAME_CATEGORIENAME)
-                ->leftjoin(P_FORMATIONS, 'f')
-                ->leftjoin(F_CATEGORIES, 'c')
-                ->groupBy('p.id')
-                ->addGroupBy(C_NAME)
-                ->orderBy('p.'.$champ, $ordre)
-                ->addOrderBy(C_NAME)
-                ->getQuery()
-                ->getResult();       
+                        ->select(P_ID_ID)
+                        ->addSelect(P_NAME_NAME)
+                        ->addSelect(C_NAME_CATEGORIENAME)
+                        ->leftjoin(P_FORMATIONS, 'f')
+                        ->leftjoin(F_CATEGORIES, 'c')
+                        ->groupBy('p.id')
+                        ->addGroupBy(C_NAME)
+                        ->orderBy('p.' . $champ, $ordre)
+                        ->addOrderBy(C_NAME)
+                        ->getQuery()
+                        ->getResult();
     }
 
     /**
@@ -72,47 +75,55 @@ class PlaylistRepository extends ServiceEntityRepository
      * ou tous les enregistrements si la valeur est vide
      * @param type $champ
      * @param type $valeur
-     * @param type $table si $champ dans une autre table
      * @return Playlist[]
      */
-    public function findByContainValue($champ, $valeur, $table=""): array{
-        if($valeur==""){
+    public function findByContainValue($champ, $valeur): array {
+        if ($valeur == "") {
             return $this->findAllOrderBy('name', 'ASC');
-        }    
-        if($table==""){      
-            return $this->createQueryBuilder('p')
-                    ->select(P_ID_ID)
-                    ->addSelect(P_NAME_NAME)
-                    ->addSelect(C_NAME_CATEGORIENAME)
-                    ->leftjoin(P_FORMATIONS, 'f')
-                    ->leftjoin(F_CATEGORIES, 'c')
-                    ->where('p.'.$champ.' LIKE :valeur')
-                    ->setParameter('valeur', '%'.$valeur.'%')
-                    ->groupBy('p.id')
-                    ->addGroupBy(C_NAME)
-                    ->orderBy('p.name', 'ASC')
-                    ->addOrderBy(C_NAME)
-                    ->getQuery()
-                    ->getResult();              
-        }else{   
-            return $this->createQueryBuilder('p')
-                    ->select(P_ID_ID)
-                    ->addSelect(P_NAME_NAME)
-                    ->addSelect(C_NAME_CATEGORIENAME)
-                    ->leftjoin(P_FORMATIONS, 'f')
-                    ->leftjoin(F_CATEGORIES, 'c')
-                    ->where('c.'.$champ.' LIKE :valeur')
-                    ->setParameter('valeur', '%'.$valeur.'%')
-                    ->groupBy('p.id')
-                    ->addGroupBy(C_NAME)
-                    ->orderBy('p.name', 'ASC')
-                    ->addOrderBy(C_NAME)
-                    ->getQuery()
-                    ->getResult();              
-            
-        }           
-    }    
+        }
+        return $this->createQueryBuilder('p')
+                        ->select(P_ID_ID)
+                        ->addSelect(P_NAME_NAME)
+                        ->addSelect(C_NAME_CATEGORIENAME)
+                        ->leftjoin(P_FORMATIONS, 'f')
+                        ->leftjoin(F_CATEGORIES, 'c')
+                        ->where('p.' . $champ . ' LIKE :valeur')
+                        ->setParameter('valeur', '%' . $valeur . '%')
+                        ->groupBy('p.id')
+                        ->addGroupBy(C_NAME)
+                        ->orderBy('p.name', 'ASC')
+                        ->addOrderBy(C_NAME)
+                        ->getQuery()
+                        ->getResult();
+    }
 
+    /**
+     * Enregistrements dont un champ contient une valeur
+     * ou tous les enregistrements si la valeur est vide
+     * et présence de table non vide donc champ dans une autre table
+     * @param type $champ
+     * @param type $valeur
+     * @param type $table car $champ dans une autre table
+     * @return Playlist[]
+     */
+    public function findByContainValueTable($champ, $valeur, $table = ""): array {
+        if ($valeur == "") {
+            return $this->findAllOrderBy('name', 'ASC');
+        }
+        return $this->createQueryBuilder('p')
+                        ->select(P_ID_ID)
+                        ->addSelect(P_NAME_NAME)
+                        ->addSelect(C_NAME_CATEGORIENAME)
+                        ->leftjoin(P_FORMATIONS, 'f')
+                        ->leftjoin(F_CATEGORIES, 'c')
+                        ->where('c.' . $champ . ' LIKE :valeur')
+                        ->setParameter('valeur', '%' . $valeur . '%')
+                        ->groupBy('p.id')
+                        ->addGroupBy(C_NAME)
+                        ->orderBy('p.name', 'ASC')
+                        ->addOrderBy(C_NAME)
+                        ->getQuery()
+                        ->getResult();
+    }
 
-    
 }
