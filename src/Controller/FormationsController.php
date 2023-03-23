@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+define ("FORMATIONS_PATH", "pages/formations.html.twig");
+
 /**
  * Controleur des formations
  *
@@ -39,7 +41,7 @@ class FormationsController extends AbstractController {
     public function index(): Response{
         $formations = $this->formationRepository->findAll();
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/formations.html.twig", [
+        return $this->render(FORMATIONS_PATH, [
             'formations' => $formations,
             'categories' => $categories
         ]);
@@ -55,7 +57,7 @@ class FormationsController extends AbstractController {
     public function sort($champ, $ordre, $table=""): Response{
         $formations = $this->formationRepository->findAllOrderBy($champ, $ordre, $table);
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/formations.html.twig", [
+        return $this->render(FORMATIONS_PATH, [
             'formations' => $formations,
             'categories' => $categories
         ]);
@@ -72,7 +74,7 @@ class FormationsController extends AbstractController {
         $valeur = $request->get("recherche");
         $formations = $this->formationRepository->findByContainValue($champ, $valeur, $table);
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/formations.html.twig", [
+        return $this->render(FORMATIONS_PATH, [
             'formations' => $formations,
             'categories' => $categories,
             'valeur' => $valeur,

@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=PlaylistRepository::class)
  */
-class Playlist
-{
+class Playlist {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -34,35 +34,29 @@ class Playlist
      */
     private $formations;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->formations = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getName(): ?string
-    {
+    public function getName(): ?string {
         return $this->name;
     }
 
-    public function setName(?string $name): self
-    {
+    public function setName(?string $name): self {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getDescription(): ?string
-    {
+    public function getDescription(): ?string {
         return $this->description;
     }
 
-    public function setDescription(?string $description): self
-    {
+    public function setDescription(?string $description): self {
         $this->description = $description;
 
         return $this;
@@ -71,13 +65,11 @@ class Playlist
     /**
      * @return Collection<int, Formation>
      */
-    public function getFormations(): Collection
-    {
+    public function getFormations(): Collection {
         return $this->formations;
     }
 
-    public function addFormation(Formation $formation): self
-    {
+    public function addFormation(Formation $formation): self {
         if (!$this->formations->contains($formation)) {
             $this->formations[] = $formation;
             $formation->setPlaylist($this);
@@ -86,15 +78,16 @@ class Playlist
         return $this;
     }
 
-    public function removeFormation(Formation $formation): self
-    {
-        if ($this->formations->removeElement($formation)) {
+    public function removeFormation(Formation $formation): self {
+        if ($this->formations->removeElement($formation) &&
+                ($formation->getPlaylist() === $this)) {
             // set the owning side to null (unless already changed)
-            if ($formation->getPlaylist() === $this) {
+            {
                 $formation->setPlaylist(null);
             }
         }
 
         return $this;
     }
+
 }
