@@ -20,7 +20,11 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('playlists') }}">Playlists</a>
-                    </li>                    
+                    </li>      
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('admin.formations') }}">Gestion</a>
+                    </li>  
                 </ul>
             </div>
         </nav>        
@@ -32,9 +36,9 @@
         <footer>
             <hr>
             <p><small><strong>
-                Consultez nos <a class="link-secondary" href="{{ path('cgu') }}">Conditions Générales d'Utilisation</a>
-            </strong></small></p>
-            
+                        Consultez nos <a class="link-secondary" href="{{ path('cgu') }}">Conditions Générales d'Utilisation</a>
+                    </strong></small></p>
+
         </footer>
     </div>
 {% endblock %}
