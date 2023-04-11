@@ -5,12 +5,6 @@ namespace App\Repository;
 use App\Entity\Playlist;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use const C_NAME;
-use const C_NAME_CATEGORIENAME;
-use const F_CATEGORIES;
-use const P_FORMATIONS;
-use const P_ID_ID;
-use const P_NAME_NAME;
 
 define("P_ID_ID", "p.id id");
 define("P_NAME_NAME", "p.name name");
