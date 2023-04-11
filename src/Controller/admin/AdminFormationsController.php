@@ -10,15 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of AdminFormationsController
+ * Controleur qui gère les routes de la page d'administration des formations
  *
  * @author intad
  */
@@ -46,6 +39,7 @@ class AdminFormationsController extends AbstractController {
     }
     
     /**
+     * Création de la route vers la page d'administration des formations
      * @Route("/admin", name="admin.formations")
      * @return Response
      */
@@ -136,6 +130,8 @@ class AdminFormationsController extends AbstractController {
     }
     
      /**
+     * Récupère les enregistrements selon le champ et la valeur.
+     * Et si le champ est dans une autre table
      * @Route("/admin/formations/recherche/{champ}/{table}", name="admin.formations.findallcontain")
      * @param type $champ
      * @param Request $request

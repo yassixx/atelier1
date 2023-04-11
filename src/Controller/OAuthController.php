@@ -8,9 +8,15 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Gestion des routes liées à l'authentification
+ * 
+ * @author intad
+ */
 class OAuthController extends AbstractController
 {
-    /**
+    /**  
+     * Création de la route qui redirige vers l'authentification
      * @Route("/oauth/login", name="oauth_login")
      */
     public function index(ClientRegistry $clientRegistry): RedirectResponse
@@ -19,14 +25,16 @@ class OAuthController extends AbstractController
     }
 
     /**
+     * Création de la route qui prend en charge la redirection du retour
      * @Route("/oauth/callback", name="oauth_check")
      */
     public function connectCheckAction(Request $request, ClientRegistry $clientRegistry)
     {
-
+        
     }
 
     /**
+     * Création de la route vers logout
      * @Route("/logout", name="logout")
      */
     public function logout()

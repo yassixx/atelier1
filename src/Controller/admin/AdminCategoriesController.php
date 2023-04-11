@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Description of AdminCategoriesController
+ * Controleur qui gère les routes de la page d'administration descatégories 
  *
  * @author intad
  */
@@ -40,6 +40,7 @@ class AdminCategoriesController extends AbstractController {
     }
 
     /**
+     * Création de la route vers la page d'administration des catégories
      * @Route("/admin/categories", name="admin.categories")
      * @return Response
      */
@@ -83,7 +84,7 @@ class AdminCategoriesController extends AbstractController {
     }
 
      /**
-     * Tri les enregistrements selon le champ
+     * Trie les enregistrements selon le champ et l'ordre
      * @Route("/admin/categories/tri/{champ}/{ordre}", name="admin.categories.sort")
      * @param type $champ
      * @param type $ordre

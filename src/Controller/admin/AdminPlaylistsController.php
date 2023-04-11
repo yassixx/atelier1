@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Description of AdminPlaylistsController
+ * Controleur qui gère les routes de la page d'administration des playlists
  *
  * @author intad
  */
@@ -52,6 +52,7 @@ class AdminPlaylistsController extends AbstractController {
 
 
     /**
+     * Création de la route vers la page des playlists
      * @Route("/admin/playlists", name="admin.playlists")
      * @return Response
      */
@@ -98,6 +99,7 @@ class AdminPlaylistsController extends AbstractController {
     }
 
      /**
+      * Ajout d'une playlist
      * @Route("/admin/ajout.playlists", name="admin.ajout.playlists")
      * @param Request $request
      * @return Response
@@ -117,8 +119,9 @@ class AdminPlaylistsController extends AbstractController {
             'formplaylist' => $formPlaylist->createView()                
         ]);
     }
-/**
-     * Tri des enregistrements
+    
+    /**
+     * Trie des enregistrements selon le nom des playlists
      * @Route("/admin/playlists/tri/{champ}/{ordre}", name="admin.playlists.sort")
      * @param type $champ
      * @param type $ordre
@@ -140,8 +143,8 @@ class AdminPlaylistsController extends AbstractController {
         ]);
     }
     /**
-     * Tri des enregistrements selon le nom des playlists
-     * Ou selon le nombre de formations
+     * Récupère les enregistrements selon $champ $valeur
+     * Et selon le $champ et la $valeur si autre $table
      * @Route("/admin/playlists/recherche/{champ}/{table}", name="admin.playlists.findallcontain")
      * @param type $champ
      * @param Request $request

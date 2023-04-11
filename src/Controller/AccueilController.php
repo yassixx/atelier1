@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Controleur de l'accueil
+ * Controleur de l'accueil - gestion routes de la page d'accueil
  *
  * @author emds
  */
@@ -19,7 +19,7 @@ class AccueilController extends AbstractController{
     private $repository;
     
     /**
-     * 
+     * Création du constructeur
      * @param FormationRepository $repository
      */
     public function __construct(FormationRepository $repository) {
@@ -27,6 +27,7 @@ class AccueilController extends AbstractController{
     }   
     
     /**
+     * Création de la route vers la page d'accueil
      * @Route("/", name="accueil")
      * @return Response
      */
@@ -38,6 +39,7 @@ class AccueilController extends AbstractController{
     }
     
     /**
+     * Création de la route vers les CGU
      * @Route("/cgu", name="cgu")
      * @return Response
      */

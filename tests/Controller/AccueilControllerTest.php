@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Tester l'accès à la page d'accueil
+ * Test fonctionnel
  *
  * @author intad
  */

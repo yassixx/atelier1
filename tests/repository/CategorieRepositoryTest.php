@@ -7,7 +7,7 @@ use App\Repository\CategorieRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
- * Description of CategorieRepositoryTest
+ * Tests d'intégration sur le CategorieRepository
  *
  * @author intad
  */
@@ -40,7 +40,10 @@ class CategorieRepositoryTest extends KernelTestCase{
                 ->setName("CATEGORIE TEST");
         return $categorie;
     }
-
+    
+    /**
+     * Teste la fonction d'ajout d'une catégorie
+     */
      public function testAddCategorie(){
         $repository = $this->recupRepository();
         $categorie = $this->newCategorie();
@@ -48,7 +51,10 @@ class CategorieRepositoryTest extends KernelTestCase{
         $repository->add($categorie, true);
         $this->assertEquals($nbCategories + 1, $repository->count([]), "erreur lors de l'ajout");
     }
-
+    
+    /**
+    * Teste la fonction de suppression d'une catégorie
+    */
     public function testRemoveCategorie(){
         $repository = $this->recupRepository();
         $categorie = $this->newCategorie();
@@ -57,7 +63,10 @@ class CategorieRepositoryTest extends KernelTestCase{
         $repository->remove($categorie, true);
         $this->assertEquals($nbCategories - 1, $repository->count([]), "erreur lors de la suppression");
     }
-
+    
+    /**
+     * Teste la fonction de récupération des catégories des formations d'une playlist
+     */
      public function testFindAllForOnePlaylist(){
         $repository = $this->recupRepository();
         $categorie = $this->newCategorie();
@@ -67,7 +76,10 @@ class CategorieRepositoryTest extends KernelTestCase{
         $this->assertEquals(2, $nbCategories);
         $this->assertEquals("POO",$categories[0]->getName());
     }
-
+    
+    /**
+     * Teste la fonction de tri d'un champ dans un ordre défini
+     */
     public function testFindAllOrderBy(){
         $repository = $this->recupRepository();
         $categorie = $this->newCategorie();
