@@ -12,6 +12,6 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
         server: ftp.mediatek-mediatheque-fakiri.online
-        server-dir: /home/u571651200/domains/mediatek-mediatheque-fakiri.online/public_html
+        server-dir: /home/u571651200/domains/mediatek-mediatheque-fakiri.online/public_html/
         username: u571651200.yassine
         password: ${{ secrets.ftp_password }}
